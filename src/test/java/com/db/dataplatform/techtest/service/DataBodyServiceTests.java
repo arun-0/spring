@@ -1,15 +1,16 @@
 package com.db.dataplatform.techtest.service;
 
+import com.db.dataplatform.techtest.server.persistence.BlockTypeEnum;
 import com.db.dataplatform.techtest.server.persistence.model.DataBodyEntity;
 import com.db.dataplatform.techtest.server.persistence.model.DataHeaderEntity;
 import com.db.dataplatform.techtest.server.persistence.repository.DataStoreRepository;
 import com.db.dataplatform.techtest.server.service.DataBodyService;
 import com.db.dataplatform.techtest.server.service.impl.DataBodyServiceImpl;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Instant;
 
@@ -19,7 +20,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class DataBodyServiceTests {
 
     public static final String TEST_NAME_NO_RESULT = "TestNoResult";
@@ -30,7 +31,7 @@ public class DataBodyServiceTests {
     private DataBodyService dataBodyService;
     private DataBodyEntity expectedDataBodyEntity;
 
-    @Before
+    @BeforeEach
     public void setup() {
         DataHeaderEntity testDataHeaderEntity = createTestDataHeaderEntity(Instant.now());
         expectedDataBodyEntity = createTestDataBodyEntity(testDataHeaderEntity);
@@ -45,5 +46,22 @@ public class DataBodyServiceTests {
         verify(dataStoreRepositoryMock, times(1))
                 .save(eq(expectedDataBodyEntity));
     }
+
+    @Test
+    public void shouldGetDataBodyEntitiesForBlocktypeAsExpected(){
+        dataBodyService.getDataByBlockType(BlockTypeEnum.BLOCKTYPEA);
+
+        verify(dataStoreRepositoryMock, times(1))
+                .findByBlocktype(eq(BlockTypeEnum.BLOCKTYPEA));
+    }
+
+//    @Test
+//    public void shouldGetDataBodyEntityForBlocknameAsExpected(){
+//        String testBlockname = "TestBlockname";
+//        dataBodyService.getDataByBlockName(testBlockname);
+//
+//        verify(dataStoreRepositoryMock, times(1))
+//                .findByBlockname(eq(testBlockname));
+//    }
 
 }

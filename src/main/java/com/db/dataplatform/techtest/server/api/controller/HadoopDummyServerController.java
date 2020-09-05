@@ -1,6 +1,5 @@
 package com.db.dataplatform.techtest.server.api.controller;
 
-import com.db.dataplatform.techtest.server.component.Server;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -24,8 +23,6 @@ import java.util.Random;
 @RequestMapping("/hadoopserver")
 @RequiredArgsConstructor
 public class HadoopDummyServerController {
-
-    private final Server server;
 
     @PostMapping(value = "/pushbigdata")
     public ResponseEntity<HttpStatus> pushBigData(@RequestBody @Valid String payload) throws InterruptedException {

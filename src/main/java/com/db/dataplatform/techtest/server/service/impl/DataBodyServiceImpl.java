@@ -7,8 +7,8 @@ import com.db.dataplatform.techtest.server.service.DataBodyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,18 +16,16 @@ public class DataBodyServiceImpl implements DataBodyService {
 
     private final DataStoreRepository dataStoreRepository;
 
+    @Transactional
     @Override
     public void saveDataBody(DataBodyEntity dataBody) {
         dataStoreRepository.save(dataBody);
     }
 
+    @Transactional
     @Override
     public List<DataBodyEntity> getDataByBlockType(BlockTypeEnum blockType) {
-        return null;
+        return dataStoreRepository.findByBlocktype(blockType).orElse(null);
     }
 
-    @Override
-    public Optional<DataBodyEntity> getDataByBlockName(String blockName) {
-        return null;
-    }
 }

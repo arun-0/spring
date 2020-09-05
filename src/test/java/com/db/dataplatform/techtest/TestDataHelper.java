@@ -7,6 +7,9 @@ import com.db.dataplatform.techtest.server.persistence.BlockTypeEnum;
 import com.db.dataplatform.techtest.server.persistence.model.DataBodyEntity;
 import com.db.dataplatform.techtest.server.persistence.model.DataHeaderEntity;
 
+import javax.xml.bind.DatatypeConverter;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
 
 public class TestDataHelper {
@@ -45,4 +48,12 @@ public class TestDataHelper {
         DataEnvelope dataEnvelope = new DataEnvelope(dataHeader, dataBody);
         return dataEnvelope;
     }
+
+    public static String getMd5Checksum(String payload) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update(payload.getBytes());
+        byte[] digest = md.digest();
+        return DatatypeConverter.printHexBinary(digest).toUpperCase();
+    }
+
 }
